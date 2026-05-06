@@ -1,132 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello Saneh</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hello Saneh</title>
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(circle at top left, rgba(99, 102, 241, 0.35), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.35), transparent 35%),
-        linear-gradient(135deg, #0f172a, #111827);
-      color: #fff;
-      padding: 24px;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
 
-    .card {
-      width: 100%;
-      max-width: 520px;
-      padding: 48px 36px;
-      border-radius: 28px;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
-      backdrop-filter: blur(18px);
-      animation: floatIn 0.8s ease forwards;
-    }
+body {
+  height: 100vh;
+  background: radial-gradient(circle at center, #0f172a, #020617);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
 
-    .badge {
-      display: inline-block;
-      padding: 8px 16px;
-      margin-bottom: 22px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.14);
-      color: #c7d2fe;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-    }
+/* Cursor Glow */
+.cursor {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(99,102,241,0.25), transparent 60%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
 
-    h1 {
-      font-size: clamp(36px, 8vw, 64px);
-      line-height: 1.05;
-      margin-bottom: 16px;
-      background: linear-gradient(90deg, #fff, #c7d2fe, #fbcfe8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+/* Stars background */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  opacity: 0.5;
+  animation: moveStars linear infinite;
+}
 
-    p {
-      color: #cbd5e1;
-      font-size: 18px;
-      line-height: 1.7;
-      margin-bottom: 30px;
-    }
+@keyframes moveStars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100vh); }
+}
 
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 24px;
-      border-radius: 16px;
-      background: #ffffff;
-      color: #111827;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 12px 30px rgba(255, 255, 255, 0.18);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+/* Card */
+.card {
+  width: 520px;
+  padding: 50px;
+  border-radius: 25px;
+  text-align: center;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  transition: transform 0.2s ease;
+  position: relative;
+}
 
-    .button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 38px rgba(255, 255, 255, 0.25);
-    }
+/* Neon border pulse */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #6366f1, #ec4899, #22c55e);
+  z-index: -1;
+  filter: blur(12px);
+  opacity: 0.6;
+  animation: glowPulse 4s infinite linear;
+}
 
-    .glow {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: rgba(129, 140, 248, 0.35);
-      filter: blur(55px);
-      z-index: -1;
-    }
+@keyframes glowPulse {
+  0% { filter: blur(10px) hue-rotate(0deg); }
+  100% { filter: blur(20px) hue-rotate(360deg); }
+}
 
-    .glow.one {
-      top: 18%;
-      left: 18%;
-    }
+/* Heading */
+h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #fff, #a5b4fc, #f9a8d4);
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
-    .glow.two {
-      bottom: 18%;
-      right: 18%;
-      background: rgba(244, 114, 182, 0.35);
-    }
+/* Typing text */
+.typing {
+  font-size: 18px;
+  color: #cbd5e1;
+  border-right: 2px solid white;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 4s steps(40) forwards, blink 0.7s infinite;
+}
 
-    @keyframes floatIn {
-      from {
-        opacity: 0;
-        transform: translateY(24px) scale(0.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-  </style>
+@keyframes typing {
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* Button */
+.button {
+  margin-top: 30px;
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(236,72,153,0.6);
+}
+
+</style>
 </head>
-<body>
-  <div class="glow one"></div>
-  <div class="glow two"></div>
 
-  <main class="card">
-    <span class="badge">Welcome</span>
-    <h1>Hello, I’m Saneh</h1>
-    <p>A clean, modern landing page with a soft glass UI and glowing background.</p>
-    <a href="#" class="button">Explore More</a>
-  </main>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- Stars -->
+<script>
+for (let i = 0; i < 80; i++) {
+  let star = document.createElement("div");
+  star.className = "star";
+  star.style.left = Math.random() * 100 + "vw";
+  star.style.top = Math.random() * 100 + "vh";
+  star.style.animationDuration = (5 + Math.random() * 10) + "s";
+  document.body.appendChild(star);
+}
+</script>
+
+<!-- Card -->
+<div class="card" id="card">
+  <h1>Hello, I’m Saneh</h1>
+  <div class="typing">Creative Developer • UI Designer • Dream Builder</div>
+  <a href="#" class="button">Enter Experience 🚀</a>
+</div>
+
+<script>
+// Cursor glow follow
+document.addEventListener("mousemove", e => {
+  document.getElementById("cursor").style.left = e.clientX + "px";
+  document.getElementById("cursor").style.top = e.clientY + "px";
+});
+
+// 3D tilt effect
+const card = document.getElementById("card");
+
+card.addEventListener("mousemove", (e) => {
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const rotateX = (y / rect.height - 0.5) * 10;
+  const rotateY = (x / rect.width - 0.5) * -10;
+
+  card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+
+card.addEventListener("mouseleave", () => {
+  card.style.transform = "rotateX(0) rotateY(0)";
+});
+</script>
+
 </body>
 </html>
